@@ -16,9 +16,9 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
 
         otus.sort((a,b) => b.count - a.count);
 
-        var otuId = otus.map(OTU => OTU.id).slice(0,10);
-        var otuValues = otus.map(OTU => OTU.count).slice(0,10);
-        var otuLabels = otus.map(OTU => OTU.name).slice(0,10);
+        var otuId = otus.map(OTU => OTU.id).slice(0,10).reverse();
+        var otuValues = otus.map(OTU => OTU.count).slice(0,10).reverse();
+        var otuLabels = otus.map(OTU => OTU.name).slice(0,10).reverse();
 
         var trace1 = {
             x: otuValues,
@@ -82,10 +82,10 @@ function optionChanged(id) {
 
     otus2.sort((a,b) => b.count - a.count);
 
-    var newValues= otus2.map(OTU => OTU.count).slice(0,10);
-    var newId = otus2.map(OTU => OTU.id).slice(0,10);
+    var newValues= otus2.map(OTU => OTU.count).slice(0,10).reverse();
+    var newId = otus2.map(OTU => OTU.id).slice(0,10).reverse();
     var newOTUId = newId.map(id => `OTU ${id}`);
-    var newLabels = otus2.map(OTU => OTU.name).slice(0,10);
+    var newLabels = otus2.map(OTU => OTU.name).slice(0,10).reverse();
 
     var newLayout = {
         title: `Top 10 OTU of Patient ${id}`
