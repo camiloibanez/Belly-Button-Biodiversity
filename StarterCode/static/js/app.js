@@ -1,4 +1,4 @@
-d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then((data) => {
+d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then(function(data) {
     data.names.forEach(function(id) {
         var dropdown = d3.select("#selDataset");
         dropdown.append("option").text(id);
@@ -52,37 +52,40 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
         };
     };
 
-    function optionChanged(id) {
-        var index = data.names.indexOf(id);
-        var newValues= data.samples[index].sample_values.slice(0,10).reverse();
-        var newId = data.samples[index].otu_ids.slice(0,10).reverse();
-        var newOTUId = newId.map(id => `OTU ${id}`);
-        var newLabels = data.samples[index].otu_labels.slice(0,10).reverse();
-
-        var newLayout = {
-            title: `Top 10 OTU of Patient ${id}`
-        };
-
-        Plotly.restyle("bar", {x: [newValues], y: [newOTUId], text: [newLabels]});
-        Plotly.relayout("bar", newLayout);
-
-        Plotly.restyle("bubble", {x: [newId], y: [newValues], text: [newLabels]});
-        Plotly.relayout("bubble", newLayout);
-
-        d3.select("#sample-metadata").html("");
-
-        var idMetadata = data.metadata[index];
-
-        for (var i = 0; i < Object.keys(idMetadata).length; i++) {
-            var keys = Object.keys(idMetadata);
-            var values = Object.values(idMetadata);
-            var infoBox = d3.select("#sample-metadata");
-
-            infoBox.append("p").text(`${keys[i]}: ${values[i]}`);
-        };
-    };
     
     init();
-
-    d3.select("#selDataset").on("change", optionChanged(this.value));
 });
+
+function optionChanged(id) {
+    d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then(function(data) {
+
+    var index = data.names.indexOf(id);
+    var newValues= data.samples[index].sample_values.slice(0,10).reverse();
+    var newId = data.samples[index].otu_ids.slice(0,10).reverse();
+    var newOTUId = newId.map(id => `OTU ${id}`);
+    var newLabels = data.samples[index].otu_labels.slice(0,10).reverse();
+
+    var newLayout = {
+        title: `Top 10 OTU of Patient ${id}`
+    };
+
+    Plotly.restyle("bar", {x: [newValues], y: [newOTUId], text: [newLabels]});
+    Plotly.relayout("bar", newLayout);
+
+    Plotly.restyle("bubble", {x: [newId], y: [newValues], text: [newLabels]});
+    Plotly.relayout("bubble", newLayout);
+
+    d3.select("#sample-metadata").html("");
+
+    var idMetadata = data.metadata[index];
+
+    for (var i = 0; i < Object.keys(idMetadata).length; i++) {
+        var keys = Object.keys(idMetadata);
+        var values = Object.values(idMetadata);
+        var infoBox = d3.select("#sample-metadata");
+
+        infoBox.append("p").text(`${keys[i]}: ${values[i]}`);
+    };
+})};
+
+d3.select("#selDataset").on("change", optionChanged(this.value));
