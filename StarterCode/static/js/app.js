@@ -1,4 +1,4 @@
-d3.json("../../samples.json").then((data) => {
+d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then((data) => {
     data.names.forEach(function(id) {
         var dropdown = d3.select("#selDataset");
         dropdown.append("option").text(id);
@@ -81,6 +81,6 @@ d3.json("../../samples.json").then((data) => {
             infoBox.append("p").text(`${keys[i]}: ${values[i]}`);
         };
     };
+    
+    init()
 });
-
-init()
