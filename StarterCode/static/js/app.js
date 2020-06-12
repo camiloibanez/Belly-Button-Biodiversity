@@ -72,18 +72,18 @@ function optionChanged(id) {
     
     var idIndex = data.names.indexOf(id);
     
-    var ids = data.samples[idIndex].otu_ids;
-    var values = data.samples[idIndex].sample_values;
-    var labels = data.samples[idIndex].otu_labels;
+    var ids2 = data.samples[idIndex].otu_ids;
+    var values2 = data.samples[idIndex].sample_values;
+    var labels2 = data.samples[idIndex].otu_labels;
 
-    var otus2 = ids.map(function(value, index) {
-        return {"id": value, "count": values[index], "name": labels[index]};
+    var otus2 = ids2.map(function(value, index) {
+        return {"id": value, "count": values2[index], "name": labels2[index]};
     });
 
     otus2.sort((a,b) => b.count - a.count);
 
-    var newValues= otus2.map(OTU => OTU.id).slice(0,10);
-    var newId = otus2.map(OTU => OTU.count).slice(0,10);
+    var newValues= otus2.map(OTU => OTU.count).slice(0,10);
+    var newId = otus2.map(OTU => OTU.id).slice(0,10);
     var newOTUId = newId.map(id => `OTU ${id}`);
     var newLabels = otus2.map(OTU => OTU.name).slice(0,10);
 
