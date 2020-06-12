@@ -49,8 +49,36 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
             yaxis: {title: "Count of OTU"}
         };
 
+        var trace3 = {
+            title: {text: "Scrubs per Week"},
+            domain: {x: [0, 1], y: [0, 1]},
+            value: data.metadata[0].wfreq,
+            type: "indicator",
+            mode: "gauge",
+            gauge: {
+                axis: {range: [null, 9]},
+                steps: [
+                    {range: [0,1], color: "#FFFFCC"},
+                    {range: [1,2], color: "#F7FFCC"},
+                    {range: [2,3], color: "#EEFF99"},
+                    {range: [3,4], color: "#BFFF80"},
+                    {range: [4,5], color: "#99FF33"},
+                    {range: [5,6], color: "#2BFF00"},
+                    {range: [6,7], color: "#22CC00"},
+                    {range: [7,8], color: "#1A9900"},
+                    {range: [8,9], color: "#116600"},
+                ]
+            }
+
+        };
+
+        var layout3 = {
+            title: "Belly Button Washing Frequency"
+        };
+        
         Plotly.newPlot("bar", [trace1], layout1);
         Plotly.newPlot("bubble", [trace2], layout2);
+        Plotly.newPlot("gauge", [trace3], layout3);
 
         var idMetadata = data.metadata[0];
 
@@ -91,11 +119,15 @@ function optionChanged(id) {
         title: `Top 10 OTU of Patient ${id}`
     };
 
+    var newWFreq = data.metadata[idIndex].wfreq;
+    
     Plotly.restyle("bar", {x: [newValues], y: [newOTUId], text: [newLabels]});
     Plotly.relayout("bar", newLayout);
 
     Plotly.restyle("bubble", {x: [newId], y: [newValues], text: [newLabels]});
     Plotly.relayout("bubble", newLayout);
+
+    Plotly.restyle("gauge", {value: [newWFreq]});
 
     d3.select("#sample-metadata").html("");
 
