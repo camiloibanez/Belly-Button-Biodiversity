@@ -82,5 +82,7 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
         };
     };
     
-    init()
+    init();
+
+    d3.select("#selDataset").on("change", optionChanged(this.value));
 });
