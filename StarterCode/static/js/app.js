@@ -5,9 +5,20 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
     });
 
     function init() {
-        var otuId = data.samples[0].otu_ids.slice(0,10).reverse();
-        var otuValues = data.samples[0].sample_values.slice(0,10).reverse();
-        var otuLabels = data.samples[0].otu_labels.slice(0,10).reverse();
+        
+        var ids = data.samples[0].otu_ids;
+        var values = data.samples[0].sample_values;
+        var labels = data.samples[0].otu_labels;
+
+        var otus = ids.map(function(value, index) {
+            return {"id": value, "count": values[index], "name": labels[index]};
+        });
+
+        otus.sort((a,b) => b.count - a.count);
+
+        var otuId = otus.map(OTU => OTU.id).slice(0,10);
+        var otuValues = otus.map(OTU => OTU.count).slice(0,10);
+        var otuLabels = otus.map(OTU => OTU.name).slice(0,10);
 
         var trace1 = {
             x: otuValues,
@@ -58,12 +69,23 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
 
 function optionChanged(id) {
     d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then(function(data) {
+    
+    var idIndex = data.names.indexOf(id);
+    
+    var ids = data.samples[idIndex].otu_ids;
+    var values = data.samples[idIndex].sample_values;
+    var labels = data.samples[idIndex].otu_labels;
 
-    var index = data.names.indexOf(id);
-    var newValues= data.samples[index].sample_values.slice(0,10).reverse();
-    var newId = data.samples[index].otu_ids.slice(0,10).reverse();
+    var otus2 = ids.map(function(value, index) {
+        return {"id": value, "count": values[index], "name": labels[index]};
+    });
+
+    otus2.sort((a,b) => b.count - a.count);
+
+    var newValues= otus2.map(OTU => OTU.id).slice(0,10);
+    var newId = otus2.map(OTU => OTU.count).slice(0,10);
     var newOTUId = newId.map(id => `OTU ${id}`);
-    var newLabels = data.samples[index].otu_labels.slice(0,10).reverse();
+    var newLabels = otus2.map(OTU => OTU.name).slice(0,10);
 
     var newLayout = {
         title: `Top 10 OTU of Patient ${id}`
@@ -77,7 +99,7 @@ function optionChanged(id) {
 
     d3.select("#sample-metadata").html("");
 
-    var idMetadata = data.metadata[index];
+    var idMetadata = data.metadata[idIndex];
 
     for (var i = 0; i < Object.keys(idMetadata).length; i++) {
         var keys = Object.keys(idMetadata);
