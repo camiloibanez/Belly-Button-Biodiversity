@@ -1,4 +1,4 @@
-d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then(function(data) {
+d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/samples.json").then(function(data) {
     data.names.forEach(function(id) {
         var dropdown = d3.select("#selDataset");
         dropdown.append("option").text(id);
@@ -96,7 +96,7 @@ d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.jso
 });
 
 function optionChanged(id) {
-    d3.json("https://camiloibanez.github.io/plotly-challenge/StarterCode/samples.json").then(function(data) {
+    d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/samples.json").then(function(data) {
     
     var idIndex = data.names.indexOf(id);
     
