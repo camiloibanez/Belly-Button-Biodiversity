@@ -1,3 +1,5 @@
+const sumArray = array => array.reduce((a,b) => a + b, 0)
+
 d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/samples.json").then(function(data) {
     data.names.forEach(function(id) {
         var dropdown = d3.select("#selDataset");
@@ -26,17 +28,17 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
 
         for (var i = 0; i < data.names.length; i++) {
             if (data.metadata[i].gender.toUpperCase() == "F") {
-                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumF.push(bacteriaSumIndividual);
             }
 
             else if (data.metadata[i].gender.toUpperCase() == "M") {
-                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumM.push(bacteriaSumIndividual);
             }
 
             else {
-                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumNA.push(bacteriaSumIndividual);
             };
         };
