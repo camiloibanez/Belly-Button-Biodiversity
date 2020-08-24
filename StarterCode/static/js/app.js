@@ -27,7 +27,12 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var bacteriaSumNA = [];
 
         for (var i = 0; i < data.names.length; i++) {
-            if (data.metadata[i].gender.toUpperCase() == "F") {
+            if (data.metadata[i].gender == null) {
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
+                bacteriaSumNA.push(bacteriaSumIndividual);
+            }
+
+            else if (data.metadata[i].gender.toUpperCase() == "F") {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumF.push(bacteriaSumIndividual);
             }
@@ -36,11 +41,6 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumM.push(bacteriaSumIndividual);
             }
-
-            else {
-                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
-                bacteriaSumNA.push(bacteriaSumIndividual);
-            };
         };
 
         var trace1 = {
@@ -111,16 +111,22 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
             name: "Male"
         };
 
+        var trace6 = {
+            y: bacteriaSumNA,
+            type: "box",
+            name: "null"
+        };
+        
         var layout4 = {
             title: "Bacteria Count by Gender",
-            xaxis: "Gender",
-            yaxis: "Bacteria Count"
+            xaxis: {title: "Gender"},
+            yaxis: {title: "Bacteria Count"}
         };
 
         Plotly.newPlot("bar", [trace1], layout1);
         Plotly.newPlot("bubble", [trace2], layout2);
         Plotly.newPlot("gauge", [trace3], layout3);
-        Plotly.newPlot("boxplot1", [trace4, trace5], layout4);
+        Plotly.newPlot("boxplot1", [trace4, trace5, trace6], layout4);
 
         var idMetadata = data.metadata[0];
 
