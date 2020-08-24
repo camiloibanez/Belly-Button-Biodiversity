@@ -105,6 +105,8 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
             wFreqAge.push(data.metadata[i].wfreq);
         };
 
+        var scatterText = data.names.map(number => `id ${number}`);
+
         var trace1 = {
             x: otuValues,
             y: otuId.map(id => `OTU ${id}`),
@@ -273,13 +275,28 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
             x: age,
             y: bacteriaSumAge,
             mode: "markers",
-            type: "scatter"
+            type: "scatter",
+            text: scatterText
         };
 
         var layout8 = {
             title: "Bacteria Count by Age",
             xaxis: {title: "Age"},
             yaxis: {title: "Bacteria Count"}
+        };
+
+        var trace19 = {
+            x: age,
+            y: wFreqAge,
+            mode: "markers",
+            type: "scatter",
+            text: scatterText
+        };
+
+        var layout9 = {
+            title: "Washing Frequency by Age",
+            xaxis: {title: "Age"},
+            yaxis: {title: "Washing Frequency (per week)"}
         };
 
         Plotly.newPlot("bar", [trace1], layout1);
@@ -290,6 +307,7 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         Plotly.newPlot("boxplot3", [trace10, trace11, trace12, trace13], layout6);
         Plotly.newPlot("boxplot4", [trace14, trace15, trace16, trace17], layout7);
         Plotly.newPlot("scatter1", [trace18], layout8);
+        Plotly.newPlot("scatter2", [trace19], layout9);
 
         var idMetadata = data.metadata[0];
 
