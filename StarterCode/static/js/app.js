@@ -26,21 +26,28 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var bacteriaSumM = [];
         var bacteriaSumNA = [];
 
+        var wFreqF = [];
+        var wFreqM = [];
+        var wFreqNA = [];
+
         for (var i = 0; i < data.names.length; i++) {
             if (data.metadata[i].gender == null) {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumNA.push(bacteriaSumIndividual);
+                wFreqNA.push(data.metadata[i].wfreq);
             }
 
             else if (data.metadata[i].gender.toUpperCase() == "F") {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumF.push(bacteriaSumIndividual);
+                wFreqF.push(data.metadata[i].wfreq);
             }
 
             else if (data.metadata[i].gender.toUpperCase() == "M") {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumM.push(bacteriaSumIndividual);
-            }
+                wFreqM.push(data.metadata[i].wfreq);
+            };
         };
 
         var trace1 = {
@@ -116,17 +123,42 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
             type: "box",
             name: "null"
         };
-        
+
         var layout4 = {
             title: "Bacteria Count by Gender",
             xaxis: {title: "Gender"},
             yaxis: {title: "Bacteria Count"}
         };
 
+        var trace7 = {
+            y: wFreqF,
+            type: "box",
+            name: "Female"
+        };
+
+        var trace8 = {
+            y: wFreqM,
+            type: "box",
+            name: "Male"
+        };
+
+        var trace9 = {
+            y: wFreqNA,
+            type: "box",
+            name: "null"
+        };
+
+        var layout5 = {
+            title: "Washing Frequency by Gender",
+            xaxis: {title: "Gender"},
+            yaxis: {title: "Washing Frequency"}
+        };
+
         Plotly.newPlot("bar", [trace1], layout1);
         Plotly.newPlot("bubble", [trace2], layout2);
         Plotly.newPlot("gauge", [trace3], layout3);
         Plotly.newPlot("boxplot1", [trace4, trace5, trace6], layout4);
+        Plotly.newPlot("boxplot2", [trace7, trace8, trace9], layout5);
 
         var idMetadata = data.metadata[0];
 
