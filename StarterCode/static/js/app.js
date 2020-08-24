@@ -75,7 +75,7 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
                 continue;
             }
 
-            if (white.indexOf(ethnicity.toLowerCase()) >=0) {
+            else if (white.indexOf(ethnicity.toLowerCase()) >=0) {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumW.push(bacteriaSumIndividual);
                 wFreqW.push(data.metadata[i].wfreq);
@@ -87,7 +87,7 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
                 wFreqB.push(data.metadata[i].wfreq);
             }
 
-            else if (asian.indexOf(ethnicity.toLowerCase() >= 0)) {
+            else if (asian.indexOf(ethnicity.toLowerCase()) >= 0) {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumA.push(bacteriaSumIndividual);
                 wFreqA.push(data.metadata[i].wfreq);
