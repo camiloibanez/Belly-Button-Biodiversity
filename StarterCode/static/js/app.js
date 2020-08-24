@@ -30,23 +30,69 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var wFreqM = [];
         var wFreqNA = [];
 
+        var white = ["caucasian", "caucasian/midleastern", "european", "caucasian/jewish", "white"];
+        var asian = [ "caucasian/asian", "asian(south)", "pacificislander", "asian(american)"];
+
+        var bacteriaSumW = [];
+        var bacteriaSumB = [];
+        var bacteriaSumA = [];
+        var bacteriaSumH = [];
+
+        var wFreqW = [];
+        var wFreqB = [];
+        var wFreqA = [];
+        var wFreqH = [];
+
         for (var i = 0; i < data.names.length; i++) {
-            if (data.metadata[i].gender == null) {
+
+            var gender = data.metadata[i].gender;
+
+            if (gender == null) {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumNA.push(bacteriaSumIndividual);
                 wFreqNA.push(data.metadata[i].wfreq);
             }
 
-            else if (data.metadata[i].gender.toUpperCase() == "F") {
+            else if (gender.toUpperCase() == "F") {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumF.push(bacteriaSumIndividual);
                 wFreqF.push(data.metadata[i].wfreq);
             }
 
-            else if (data.metadata[i].gender.toUpperCase() == "M") {
+            else if (gender.toUpperCase() == "M") {
                 let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
                 bacteriaSumM.push(bacteriaSumIndividual);
                 wFreqM.push(data.metadata[i].wfreq);
+            };
+
+            var ethnicity = data.metadata[i].ethnicity;
+
+            if (ethnicity == null) {
+                continue;
+            }
+
+            if (white.indexOf(ethnicity.toLowerCase()) >=0) {
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
+                bacteriaSumW.push(bacteriaSumIndividual);
+                wFreqW.push(data.metadata[i].wfreq);
+            }
+
+            else if (ethnicity.toLowerCase() == "black") {
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
+                bacteriaSumB.push(bacteriaSumIndividual);
+                wFreqB.push(data.metadata[i].wfreq);
+            }
+
+            else if (asian.indexOf(ethnicity.toLowerCase() >= 0)) {
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
+                bacteriaSumA.push(bacteriaSumIndividual);
+                wFreqA.push(data.metadata[i].wfreq);
+            }
+
+            else if (ethnicity.toLowerCase() == "hispanic") {
+                let bacteriaSumIndividual = sumArray(data.samples[i].sample_values);
+                bacteriaSumH.push(bacteriaSumIndividual);
+                wFreqH.push(data.metadata[i].wfreq);
             };
         };
 
@@ -151,14 +197,76 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var layout5 = {
             title: "Washing Frequency by Gender",
             xaxis: {title: "Gender"},
-            yaxis: {title: "Washing Frequency"}
+            yaxis: {title: "Washing Frequency (per week)"}
         };
+
+        var trace10 = {
+            y: bacteriaSumW,
+            type: "box",
+            name: "White"
+        };
+
+        var trace11 = {
+            y: bacteriaSumB,
+            type: "box",
+            name: "Black"
+        };
+
+        var trace12 = {
+            y: bacteriaSumA,
+            type: "box",
+            name: "Asian"
+        };
+
+        var trace13 = {
+            y: bacteriaSumH,
+            type: "box",
+            name: "Hispanic"
+        };
+
+        var layout6 = {
+            title: "Bacteria Count by Ethnicity",
+            xaxis: {title: "Ethnicity"},
+            yaxis: {title: "Bacteria Count"}
+        };
+
+        var trace14 = {
+            y: wFreqW,
+            type: "box",
+            name: "White"
+        };
+
+        var trace15 = {
+            y: wFreqB,
+            type: "box",
+            name: "Black"
+        };
+
+        var trace16 = {
+            y: wFreqA,
+            type: "box",
+            name: "Asian"
+        };
+
+        var trace17 = {
+            y: wFreqH,
+            type: "box",
+            name: "Hispanic"
+        };
+
+        var layout7 = {
+            title: "Washing Frequency by Ethnicity",
+            xaxis: {title: "Ethnicity"},
+            yaxis: {title: "Washing Frequency (per week)"}
+        }
 
         Plotly.newPlot("bar", [trace1], layout1);
         Plotly.newPlot("bubble", [trace2], layout2);
         Plotly.newPlot("gauge", [trace3], layout3);
         Plotly.newPlot("boxplot1", [trace4, trace5, trace6], layout4);
         Plotly.newPlot("boxplot2", [trace7, trace8, trace9], layout5);
+        Plotly.newPlot("boxplot3", [trace10, trace11, trace12, trace13], layout6);
+        Plotly.newPlot("boxplot4", [trace14, trace15, trace16, trace17], layout7);
 
         var idMetadata = data.metadata[0];
 
