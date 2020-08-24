@@ -20,6 +20,27 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var otuValues = otus.map(OTU => OTU.count).slice(0,10).reverse();
         var otuLabels = otus.map(OTU => OTU.name).slice(0,10).reverse();
 
+        var bacteriaSumF = [];
+        var bacteriaSumM = [];
+        var bacteriaSumNA = [];
+
+        for (var i = 0; i < data.names.length; i++) {
+            if (data.metadata[i].gender.toUpperCase() == "F") {
+                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                bacteriaSumF.push(bacteriaSumIndividual);
+            }
+
+            else if (data.metadata[i].gender.toUpperCase() == "M") {
+                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                bacteriaSumM.push(bacteriaSumIndividual);
+            }
+
+            else {
+                let bacteriaSumIndividual = sum(data.samples[i].sample_values);
+                bacteriaSumNA.push(bacteriaSumIndividual);
+            };
+        };
+
         var trace1 = {
             x: otuValues,
             y: otuId.map(id => `OTU ${id}`),
@@ -75,10 +96,29 @@ d3.json("https://camiloibanez.github.io/Belly-Button-Biodiversity/StarterCode/sa
         var layout3 = {
             title: "Belly Button Washing Frequency"
         };
-        
+
+        var trace4 = {
+            y: bacteriaSumF,
+            type: "box",
+            name: "Female"
+        };
+
+        var trace5 = {
+            y: bacteriaSumM,
+            type: "box",
+            name: "Male"
+        };
+
+        var layout4 = {
+            title: "Bacteria Count by Gender",
+            xaxis: "Gender",
+            yaxis: "Bacteria Count"
+        };
+
         Plotly.newPlot("bar", [trace1], layout1);
         Plotly.newPlot("bubble", [trace2], layout2);
         Plotly.newPlot("gauge", [trace3], layout3);
+        Plotly.newPlot("boxplot1", [trace4, trace5], layout4);
 
         var idMetadata = data.metadata[0];
 
